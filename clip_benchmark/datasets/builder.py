@@ -534,7 +534,8 @@ def get_dataset_collate_fn(dataset_name):
     if dataset_name in ("mscoco_captions", "multilingual_mscoco_captions", "flickr30k", "flickr8k", "flickr30k-200", "crossmodal3600", "xtd200", "winoground") or dataset_name.startswith("sugar_crepe"):
         return image_captions_collate_fn
     else:
-        return default_collate
+        return image_collate_fn
+        # return default_collate
 
 def has_gdown():
     return call("which gdown", shell=True) == 0
@@ -800,10 +801,14 @@ def _extract_task(dataset_name):
     task = "_".join(task_name_list)
     return task
 
+def image_collate_fn(batch):
+    x = default_collate(batch) # [{'pixel_values': Tensor(64, 1, 224, 224)}, Tensor(64)]
+    x[0]['pixel_values'] = x[0]['pixel_values'].squeeze(1)
+    return x
 
 def image_captions_collate_fn(batch):
     transposed = list(zip(*batch))
-    imgs = default_collate(transposed[0])
+    imgs = image_collate_fn(transposed[0])
     texts = transposed[1]
     return imgs, texts
 

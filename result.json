@@ -1,0 +1,1 @@
+{"dataset": "cifar10", "model": "ViT-B-32-quickgelu", "pretrained": "openai/clip-vit-base-patch16", "task": "zeroshot_classification", "metrics": {"acc1": 0.908, "acc5": 0.9943, "mean_per_class_recall": 0.9079999999999998}, "language": "en"}
