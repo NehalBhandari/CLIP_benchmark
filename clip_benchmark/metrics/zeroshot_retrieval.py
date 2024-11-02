@@ -88,7 +88,8 @@ def evaluate(model, dataloader, tokenizer,  device, amp=True, recall_k_list=[5])
 def dataloader_with_indices(dataloader):
     start = 0
     for x, y in dataloader:
-        end = start + len(x)
+        num_images = len(list(x.values())[0])
+        end = start + num_images
         inds = torch.arange(start, end)
         yield x, y, inds
         start = end
